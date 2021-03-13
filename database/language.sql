@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 13, 2021 at 06:02 AM
+-- Generation Time: Mar 13, 2021 at 12:14 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.2.19
 
@@ -44,11 +44,9 @@ CREATE TABLE `failed_jobs` (
 
 CREATE TABLE `languages` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `en` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'English',
-  `es` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Spanish',
-  `fr` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'French',
-  `jp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Japan',
+  `shortName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fullName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `countryImage` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -57,10 +55,31 @@ CREATE TABLE `languages` (
 -- Dumping data for table `languages`
 --
 
-INSERT INTO `languages` (`id`, `key`, `en`, `es`, `fr`, `jp`, `created_at`, `updated_at`) VALUES
-(1, 'welcome', 'Welcome Friend', 'Bienvenido amigo', 'Bienvenue mon ami', 'ようこそ友達', NULL, NULL),
-(2, 'hellow', 'Hi Friend', 'Hola amiga', 'salut l\'ami', 'こんにちは友達', NULL, NULL),
-(3, 'a', 'bbb', 'ccc', 'ddd', 'eee', NULL, NULL);
+INSERT INTO `languages` (`id`, `shortName`, `fullName`, `countryImage`, `created_at`, `updated_at`) VALUES
+(1, 'en', 'English', 'img', NULL, NULL),
+(2, 'es', 'Spanish', 'img', NULL, NULL),
+(3, 'fr', 'French', 'img', NULL, NULL),
+(4, 'jp', 'Japan', 'img', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `language_keys`
+--
+
+CREATE TABLE `language_keys` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `language_keys`
+--
+
+INSERT INTO `language_keys` (`id`, `key`, `created_at`, `updated_at`) VALUES
+(1, 'home', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -82,7 +101,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '2014_10_12_000000_create_users_table', 1),
 (2, '2014_10_12_100000_create_password_resets_table', 1),
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
-(4, '2021_03_11_181820_create_languages_table', 1);
+(5, '2021_03_13_102612_create_languages_table', 2),
+(6, '2021_03_13_105223_create_language_keys_table', 3);
 
 -- --------------------------------------------------------
 
@@ -130,6 +150,12 @@ ALTER TABLE `languages`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `language_keys`
+--
+ALTER TABLE `language_keys`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
@@ -162,13 +188,19 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `languages`
 --
 ALTER TABLE `languages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `language_keys`
+--
+ALTER TABLE `language_keys`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`

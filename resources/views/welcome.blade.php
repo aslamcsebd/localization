@@ -6,8 +6,8 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                   <p>{{ trans('sentence.a')}}</p>
-                   <p>{{ trans('sentence.b')}}</p>
+                   {{-- <p>{{ trans('sentence.a')}}</p> --}}
+                   {{-- <p>{{ trans('sentence.b')}}</p> --}}
                 </div>
             </div>
          <a class="btn btn-info" href="{{url('next')}}">Next page</a>
