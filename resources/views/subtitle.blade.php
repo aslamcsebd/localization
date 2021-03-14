@@ -6,9 +6,9 @@
          @php
             $Languages = App\Language::all();
          @endphp
-         @foreach($Languages as $Language2)
-            <button class="av-link btn btn-outline-primary p-1 m-1 @if($loop->index==0) active @endif" data-bs-toggle="pill" data-bs-target="#v-pills-{{$Language2->id}}">
-               {{$Language2->name}}
+         @foreach($Languages as $Language)
+            <button class="av-link btn btn-outline-primary p-1 m-1 @if($loop->index==0) active @endif" data-bs-toggle="pill" data-bs-target="#v-pills-{{$Language->id}}">
+               {{$Language->name}}
             </button>
          @endforeach
       </div>
@@ -26,7 +26,7 @@
                         <div class="col">
                            <div class="card">
                               <div class="card-body">                       
-                                 <div class="card-header bg-danger mb-2">{{$Language2->name}}</div>
+                                 <div class="card-header bg-danger mb-2">{{$Language->name}}</div>
                                     <table class="table table-bordered">
                                        <thead class="text-center">
                                           <tr>
@@ -37,24 +37,29 @@
                                           </tr>
                                        </thead>
                                        <tbody>
+                                          {{-- subtitles language_keys languages --}}
                                           @php
-                                             $allLanguageKey = App\LanguageKey::all();
+                                             $subtitleKeys = 
+                                                App\LanguageKey::join('subtitles', 'subtitles.languageKey_id', '=', 'language_keys.id')
+                                                   ->join('languages', 'languages.id', '=', 'subtitles.language_id')
+                                                   ->where('subtitles.language_id', '=', $Language->id)
+                                                   ->select('subtitles.languagekey_id')->get();
                                           @endphp
-                                          @foreach($allLanguageKey as $LanguageKey)
+                                          @foreach($subtitleKeys as $subtitleKey)
                                              @php
-                                                $subtitles = App\Subtitle::where('languageKey_id', '!=', $LanguageKey->id)->where('language_id', '!=', $Language2->id)->get();
+                                                $LanguageKeys = App\LanguageKey::where('id', '!=', $subtitleKey->languagekey_id)->get();
                                              @endphp
-                                             @foreach($subtitles as $subtitle)
+                                             @foreach($LanguageKeys as $LanguageKey)
                                                 <tr>
-                                                   <td>{{ $subtitle->id}}</td>
-                                                   <td>{{ $subtitle->LanguageKey->key}}</td>
+                                                   <td>{{ $LanguageKey->id}}</td>
+                                                   <td>{{ $LanguageKey->key}}</td>
                                                    <td><input type="" name=""></td>
                                                    <td>
                                                       <button>Ok</button>
                                                    </td>
                                                 </tr>
-                                              @endforeach                                               
-                                           @endforeach                                               
+                                             @endforeach                                    
+                                          @endforeach                                            
                                        </tbody>
                                     </table>
                               </div>
@@ -71,6 +76,7 @@
                                     <table class="table table-bordered">
                                        <thead class="text-center">
                                           <tr>
+                                             <th>Id</th>
                                              <th>Key</th>
                                              <th>Input</th>
                                              <th>Action</th>
@@ -78,17 +84,27 @@
                                        </thead>
                                        <tbody>
                                           @php
-                                             $subtitles = App\Subtitle::where('languageKey_id', 2)->where('language_id', 3)->get();
+                                             $subtitleKeys = 
+                                                App\LanguageKey::join('subtitles', 'subtitles.languageKey_id', '=', 'language_keys.id')
+                                                   ->join('languages', 'languages.id', '=', 'subtitles.language_id')
+                                                   ->where('subtitles.language_id', '=', $Language->id)
+                                                   ->select('subtitles.languagekey_id')->get();
                                           @endphp
-                                          @foreach($subtitles as $subtitle)
-                                             <tr>
-                                                <td>{{ $subtitle->id}}</td>
-                                                <td><input type="" name=""></td>
-                                                <td>
-                                                   <button>Ok</button>
-                                                </td>
-                                             </tr>
-                                           @endforeach                                               
+                                          @foreach($subtitleKeys as $subtitleKey)
+                                             @php
+                                                $LanguageKeys = App\LanguageKey::where('id', '=', $subtitleKey->languagekey_id)->get();
+                                             @endphp
+                                             @foreach($LanguageKeys as $LanguageKey)
+                                                <tr>
+                                                   <td>{{ $LanguageKey->id}}</td>
+                                                   <td>{{ $LanguageKey->key}}</td>
+                                                   <td><input type="" name=""></td>
+                                                   <td>
+                                                      <button>Ok</button>
+                                                   </td>
+                                                </tr>
+                                             @endforeach                               
+                                          @endforeach                                            
                                        </tbody>
                                     </table>
                               </div>

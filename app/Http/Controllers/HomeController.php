@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App;
 use App\Language;
 use App\LanguageKey;
+use App\Subtitle;
+use DB;
 
 
 class HomeController extends Controller{
@@ -39,7 +41,7 @@ class HomeController extends Controller{
    }
 
     //Subtitle
-   public function subtitle(Request $request){
+   public function subtitle(){
       return view('subtitle');
    }
     public function addSubtitle(Request $request){
