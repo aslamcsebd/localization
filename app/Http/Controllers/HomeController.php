@@ -24,8 +24,7 @@ class HomeController extends Controller{
    // addLanguage
    public function addLanguage(Request $request){
       Language::insert([
-            'shortName'=>$request->shortName,    
-            'fullName'=>$request->fullName,    
+            'name'=>$request->name,    
             'countryImage'=>'Image'
       ]);
       return back()->with('success','Language add Successfully');
@@ -39,12 +38,16 @@ class HomeController extends Controller{
       return back()->with('success','Language key add Successfully');
    }
 
-    // addKey
-   public function addSubtitle(Request $request){
-      LanguageKey::insert([
-            'key'=>$request->key
-      ]);
-      return back()->with('success','Language key add Successfully');
+    //Subtitle
+   public function subtitle(Request $request){
+      return view('subtitle');
+   }
+    public function addSubtitle(Request $request){
+      echo "string";
+      // LanguageKey::insert([
+      //       'key'=>$request->key
+      // ]);
+      // return back()->with('success','Language key add Successfully');
    }
 
 }

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+<nav class="navbar navbar-expand-md navbar-light navbar-laravel" style="background-color: cyan;">
    <div class="container">
       <a class="navbar-brand" href="{{ url('/') }}">
          {{ config('app.name', 'Laravel') }}
@@ -15,7 +15,7 @@
                <a class="nav-link btn btn-sm btn-success text-light" data-toggle="modal" data-original-title="test" data-target="#addKey">Add Key</a>
             </li>
              <li class="nav-item">
-               <a class="nav-link btn btn-sm btn-secondary text-light" data-toggle="modal" data-original-title="test" data-target="#addSubtitle">Add Subtitle</a>
+               <a class="nav-link btn btn-sm btn-secondary text-light" href="{{url('subtitle')}}">Add Subtitle</a>
             </li>
          </ul>
          
