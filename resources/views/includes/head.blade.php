@@ -14,6 +14,8 @@
    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
+   {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> --}}
+
    <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
    
    
@@ -65,11 +67,19 @@ table.dataTable thead td {
    background-color: #17c0eb;
 }
 .table tbody{ background-color: #00cec9; }
-
+/*
 .table tbody > tr >td:nth-child(1),
 .table tbody > tr >td:nth-child(2){ text-align: center; }
+*/
+.table tbody > tr >td{ text-align: center; }
 
 .nav { background: #bdc3c7; }
 .d-flex .card { margin-top: 5px !important; }
 .nav-link.active { background-color: #81ecec !important; color: #000 !important; }
-   </style>
+
+.form-group{ margin-bottom: 10px; }
+label{ font-weight: 700; }
+.subtitle_input{ width: 100%; }
+
+
+</style>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 13, 2021 at 12:14 PM
+-- Generation Time: Mar 15, 2021 at 01:18 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.2.19
 
@@ -44,8 +44,7 @@ CREATE TABLE `failed_jobs` (
 
 CREATE TABLE `languages` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `shortName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `fullName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `countryImage` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -55,11 +54,12 @@ CREATE TABLE `languages` (
 -- Dumping data for table `languages`
 --
 
-INSERT INTO `languages` (`id`, `shortName`, `fullName`, `countryImage`, `created_at`, `updated_at`) VALUES
-(1, 'en', 'English', 'img', NULL, NULL),
-(2, 'es', 'Spanish', 'img', NULL, NULL),
-(3, 'fr', 'French', 'img', NULL, NULL),
-(4, 'jp', 'Japan', 'img', NULL, NULL);
+INSERT INTO `languages` (`id`, `name`, `countryImage`, `created_at`, `updated_at`) VALUES
+(1, 'English', 'img', NULL, NULL),
+(2, 'Spanish', 'img', NULL, NULL),
+(3, 'French', 'img', NULL, NULL),
+(4, 'Japan', 'img', NULL, NULL),
+(5, 'Indian', 'Image', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -79,7 +79,27 @@ CREATE TABLE `language_keys` (
 --
 
 INSERT INTO `language_keys` (`id`, `key`, `created_at`, `updated_at`) VALUES
-(1, 'home', NULL, NULL);
+(1, 'Enter your Password', NULL, NULL),
+(2, 'Forget your password?', NULL, NULL),
+(3, 'Re-enter password', NULL, NULL),
+(4, 'Enter your name', NULL, NULL),
+(5, 'Choose your image', NULL, NULL),
+(6, 'Enter Father\'s name', NULL, NULL),
+(7, 'Enter Mother\'s name', NULL, NULL),
+(8, 'Enter Your address', NULL, NULL),
+(9, 'Enter Full Name', NULL, NULL),
+(10, 'Enter Present address', NULL, NULL),
+(11, 'Enter your Password 2', NULL, NULL),
+(12, 'Forget your password 2', NULL, NULL),
+(13, 'Re-enter password 2', NULL, NULL),
+(14, 'Enter your name 2', NULL, NULL),
+(15, 'Choose your image 2', NULL, NULL),
+(16, 'Enter Father\'s name 2', NULL, NULL),
+(17, 'Enter Mother\'s name 2', NULL, NULL),
+(18, 'Enter Your address 2', NULL, NULL),
+(19, 'Enter Full Name 2', NULL, NULL),
+(20, 'Enter Present address 2', NULL, NULL),
+(21, 'How are you?', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -102,7 +122,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (2, '2014_10_12_100000_create_password_resets_table', 1),
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
 (5, '2021_03_13_102612_create_languages_table', 2),
-(6, '2021_03_13_105223_create_language_keys_table', 3);
+(6, '2021_03_13_105223_create_language_keys_table', 3),
+(7, '2021_03_13_172851_create_subtitles_table', 4);
 
 -- --------------------------------------------------------
 
@@ -115,6 +136,30 @@ CREATE TABLE `password_resets` (
   `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subtitles`
+--
+
+CREATE TABLE `subtitles` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `languageKey_id` int(11) NOT NULL,
+  `language_id` int(11) NOT NULL,
+  `subtitle` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `subtitles`
+--
+
+INSERT INTO `subtitles` (`id`, `languageKey_id`, `language_id`, `subtitle`, `created_at`, `updated_at`) VALUES
+(18, 2, 4, 'ス ワ ー ド 忘 ま', NULL, NULL),
+(19, 2, 5, 'अपना पासवर्ड भूल गए हैं?', NULL, NULL),
+(20, 6, 2, 'Ingrese el nombre del padre', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -168,6 +213,12 @@ ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
 
 --
+-- Indexes for table `subtitles`
+--
+ALTER TABLE `subtitles`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -194,13 +245,19 @@ ALTER TABLE `languages`
 -- AUTO_INCREMENT for table `language_keys`
 --
 ALTER TABLE `language_keys`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `subtitles`
+--
+ALTER TABLE `subtitles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `users`

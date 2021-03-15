@@ -11,8 +11,8 @@
 
       @yield('content')
 
-      @include('includes.footer')
       @include('includes.modal')
+      @include('includes.footer')
       
    </body>
 </html>

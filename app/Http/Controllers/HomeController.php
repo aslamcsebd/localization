@@ -45,11 +45,20 @@ class HomeController extends Controller{
       return view('subtitle');
    }
     public function addSubtitle(Request $request){
-      echo "string";
-      // LanguageKey::insert([
-      //       'key'=>$request->key
-      // ]);
-      // return back()->with('success','Language key add Successfully');
+      Subtitle::insert([
+         'languageKey_id'=>$request->languageKey_id,    
+         'language_id'=>$request->language_id,    
+         'subtitle'=>$request->subtitle
+      ]);
+      return back()->with('success','Language key add Successfully');
+   }
+
+   public function editSubtitle(Request $request){
+
+      Subtitle::find($request->id)->update([
+            'subtitle'=>$request->subtitle
+         ]);
+      return back();
    }
 
 }

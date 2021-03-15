@@ -5,8 +5,10 @@
       <div class="nav flex-column col-auto nav-pills bg-light border border-danger p-1" id="v-pills-tab" role="tablist" aria-orientation="vertical">
          @php
             $Languages = App\Language::all();
+            $total_languageKey = App\LanguageKey::all()->count();            
          @endphp
          @foreach($Languages as $Language)
+
             <button class="av-link btn btn-outline-primary p-1 m-1 @if($loop->index==0) active @endif" data-bs-toggle="pill" data-bs-target="#v-pills-{{$Language->id}}">
                {{$Language->name}}
             </button>
@@ -14,14 +16,17 @@
       </div>
       <div class="tab-content col" id="v-pills-tabContent">             
          @foreach($Languages as $Language)
+            @php  $total_complete_subtitle = App\Subtitle::where('language_id', $Language->id)->get()->count(); 
+                  $total_incomplete_subtitle = $total_languageKey - $total_complete_subtitle;
+            @endphp
             <div class="tab-pane fade show border border-primary @if($loop->index==0) active @endif" id="v-pills-{{$Language->id}}">
                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                  <button class="nav-link @if($loop->index==0) active @endif" data-bs-toggle="tab" data-bs-target="#nav-{{$Language->id}}_code">Code [Add]</button>
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-{{$Language->id}}_output">Output [Complete]</button>
+                  <button class="nav-link bg-danger text-light @if($loop->index==0) active @endif" data-bs-toggle="tab" data-bs-target="#nav-{{$Language->id}}_code">Incomplete Subtitle[{{$total_incomplete_subtitle}}/{{$total_languageKey}}]</button>
+                  <button class="nav-link bg-success text-light" data-bs-toggle="tab" data-bs-target="#nav-{{$Language->id}}_output">Complete Subtitle[{{$total_complete_subtitle}}/{{$total_languageKey}}]</button>
                </div>
 
                <div class="tab-content" id="nav-tabContent">
-                  <div class="tab-pane fade show active resp-tab-content" id="nav-{{$Language->id}}_code" role="tabpanel" aria-labelledby="nav-{{$Language->id}}_code-tab"> 
+                  <div class="tab-pane fade show active resp-tab-content" id="nav-{{$Language->id}}_code" role="tabpanel" aria-labelledby="nav-{{$Language->id}}_code-tab">
                      <div class="row">
                         <div class="col">
                            <div class="card">
@@ -30,38 +35,68 @@
                                     <table class="table table-bordered">
                                        <thead class="text-center">
                                           <tr>
-                                             <th>Id</th>
-                                             <th>Key</th>
-                                             <th>Input</th>
+                                             <th>KeyId</th>
+                                             <th>Key value</th>
+                                             <th>Enter Subtitle</th>
                                              <th>Action</th>
                                           </tr>
                                        </thead>
                                        <tbody>
-                                          {{-- subtitles language_keys languages --}}
                                           @php
                                              $subtitleKeys = 
                                                 App\LanguageKey::join('subtitles', 'subtitles.languageKey_id', '=', 'language_keys.id')
                                                    ->join('languages', 'languages.id', '=', 'subtitles.language_id')
                                                    ->where('subtitles.language_id', '=', $Language->id)
                                                    ->select('subtitles.languagekey_id')->get();
+                                             $colo1limit = 0; 
+                                             $a = array();
+                                          @endphp                                             
+                                          @php
+                                             $keys = App\LanguageKey::all();  
+                                             foreach($keys as $key){
+                                                $a[$colo1limit] = $key->id;
+                                                $colo1limit = $colo1limit + 1;
+                                             }
+                                             for($i=0;$i<$colo1limit;$i++){
+                                                   $a[$i];
+                                             }
+                                             foreach($subtitleKeys as $r2){
+                                                for($l=0;$l< $colo1limit;$l++){            
+                                                   if($r2->languagekey_id == $a[$l]){
+                                                        $a[$l] = 0;
+                                                   }
+                                                }
+                                                for($i=0;$i<$colo1limit;$i++){
+                                                     $a[$i];
+                                                }
+                                             }
                                           @endphp
-                                          @foreach($subtitleKeys as $subtitleKey)
-                                             @php
-                                                $LanguageKeys = App\LanguageKey::where('id', '!=', $subtitleKey->languagekey_id)->get();
-                                             @endphp
-                                             @foreach($LanguageKeys as $LanguageKey)
-                                                <tr>
-                                                   <td>{{ $LanguageKey->id}}</td>
-                                                   <td>{{ $LanguageKey->key}}</td>
-                                                   <td><input type="" name=""></td>
-                                                   <td>
-                                                      <button>Ok</button>
-                                                   </td>
-                                                </tr>
-                                             @endforeach                                    
-                                          @endforeach                                            
+                                             @for($i=0;$i<$colo1limit;$i++)
+                                                @if ($a[$i]!=0)
+                                                   @php $LanguageKey = App\LanguageKey::find($a[$i]); @endphp
+                                                      <tr>
+                                                         <form action="{{ url('addSubtitle') }}" method="post">
+                                                            @csrf
+                                                               <td>
+                                                                  <input type="hidden" name="languageKey_id" value="{{$LanguageKey->id}}" >
+                                                                  {{ $LanguageKey->id}}
+                                                               </td>
+                                                               <td>
+                                                                  <input type="hidden" name="language_id" value="{{$Language->id}}" >
+                                                                  {{ $LanguageKey->key}}
+                                                               </td>
+                                                               <td >
+                                                                  <input type="" class="subtitle_input" name="subtitle" required>
+                                                               </td>
+                                                               <td>
+                                                                  <button class="btn btn-danger text-light">Add Subtitle</button>
+                                                               </td>
+                                                         </form>
+                                                      </tr>
+                                                @endif
+                                             @endfor
                                        </tbody>
-                                    </table>
+                                    </table>                                   
                               </div>
                            </div>
                         </div>
@@ -72,13 +107,13 @@
                         <div class="col">
                            <div class="card">
                               <div class="card-body">                       
-                                 <div class="card-header bg-success">{{$Language->name}}</div>
+                                 <div class="card-header bg-success mb-2">{{$Language->name}}</div>
                                     <table class="table table-bordered">
                                        <thead class="text-center">
                                           <tr>
-                                             <th>Id</th>
-                                             <th>Key</th>
-                                             <th>Input</th>
+                                             <th>KeyId</th>
+                                             <th>Key value</th>
+                                             <th>Subtitle</th>
                                              <th>Action</th>
                                           </tr>
                                        </thead>
@@ -88,7 +123,7 @@
                                                 App\LanguageKey::join('subtitles', 'subtitles.languageKey_id', '=', 'language_keys.id')
                                                    ->join('languages', 'languages.id', '=', 'subtitles.language_id')
                                                    ->where('subtitles.language_id', '=', $Language->id)
-                                                   ->select('subtitles.languagekey_id')->get();
+                                                   ->select('subtitles.id','subtitles.languagekey_id', 'subtitles.subtitle')->get();
                                           @endphp
                                           @foreach($subtitleKeys as $subtitleKey)
                                              @php
@@ -98,9 +133,9 @@
                                                 <tr>
                                                    <td>{{ $LanguageKey->id}}</td>
                                                    <td>{{ $LanguageKey->key}}</td>
-                                                   <td><input type="" name=""></td>
+                                                   <td>{{ $subtitleKey->subtitle}}</td>
                                                    <td>
-                                                      <button>Ok</button>
+                                                      <a class="btn btn-success text-light" data-toggle="modal" data-target="#editSubtitle" data-id="{{$subtitleKey->id}}" data-language_key="{{$LanguageKey->key}}" data-subtitle="{{$subtitleKey->subtitle}}">Edit</a>
                                                    </td>
                                                 </tr>
                                              @endforeach                               

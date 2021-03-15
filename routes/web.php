@@ -15,5 +15,6 @@ Route::post('addKey', 'HomeController@addKey')->name('addKey');
 
 Route::get('subtitle', 'HomeController@subtitle')->name('subtitle');
 Route::post('addSubtitle', 'HomeController@addSubtitle')->name('addSubtitle');
+Route::post('editSubtitle', 'HomeController@editSubtitle')->name('editSubtitle');
 
 Route::get('next', 'HomeController@home')->name('home');
