@@ -18,7 +18,7 @@
 
                      <div class="form-group">
                         <label for="codeTitle" class="mb-1">Country Image/Logo:</label>
-                        <input type="file" class="form-control" name="countryImage">
+                        <input type="file" class="form-control" name="flag">
                      </div>
                   </div>
                   <div class="modal-footer">

@@ -1,15 +1,13 @@
 <?php
 
-// HomeController.php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
 use App;
 use App\Language;
 use App\LanguageKey;
 use App\Subtitle;
-use DB;
 
 
 class HomeController extends Controller{
@@ -25,10 +23,21 @@ class HomeController extends Controller{
 
    // addLanguage
    public function addLanguage(Request $request){
-      Language::insert([
-            'name'=>$request->name,    
-            'countryImage'=>'Image'
-      ]);
+
+      if ($request->hasFile('flag')){
+         if($files=$request->file('flag')){
+            $countryName = $request->name;
+            $countryImage = $request->flag;
+            $fullName=$countryName.".".$countryImage->getClientOriginalExtension();
+            $files->move('assets/flag/', $fullName);
+            $imageLink = "assets/flag/". $fullName;
+
+            Language::insert([
+               'name'=>$request->name,    
+               'countryImage'=>$imageLink
+            ]);
+         }
+      }
       return back()->with('success','Language add Successfully');
    }
 
@@ -44,7 +53,8 @@ class HomeController extends Controller{
    public function subtitle(){
       return view('subtitle');
    }
-    public function addSubtitle(Request $request){
+   
+   public function addSubtitle(Request $request){
       Subtitle::insert([
          'languageKey_id'=>$request->languageKey_id,    
          'language_id'=>$request->language_id,    
@@ -56,8 +66,8 @@ class HomeController extends Controller{
    public function editSubtitle(Request $request){
 
       Subtitle::find($request->id)->update([
-            'subtitle'=>$request->subtitle
-         ]);
+         'subtitle'=>$request->subtitle
+      ]);
       return back();
    }
 

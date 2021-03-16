@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Route::get('lang/{locale}', 'HomeController@lang');
 Route::get('lang/{locale}', 'HomeController@lang');
+
 
 Route::get('/', function () {
     return view('welcome');

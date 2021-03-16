@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 15, 2021 at 01:18 PM
+-- Generation Time: Mar 16, 2021 at 12:32 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.2.19
 
@@ -55,11 +55,10 @@ CREATE TABLE `languages` (
 --
 
 INSERT INTO `languages` (`id`, `name`, `countryImage`, `created_at`, `updated_at`) VALUES
-(1, 'English', 'img', NULL, NULL),
-(2, 'Spanish', 'img', NULL, NULL),
-(3, 'French', 'img', NULL, NULL),
-(4, 'Japan', 'img', NULL, NULL),
-(5, 'Indian', 'Image', NULL, NULL);
+(9, 'English', 'assets/flag/English.png', NULL, NULL),
+(10, 'Spanish', 'assets/flag/Spanish.png', NULL, NULL),
+(11, 'French', 'assets/flag/French.png', NULL, NULL),
+(12, 'Japan', 'assets/flag/Japan.png', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -159,7 +158,8 @@ CREATE TABLE `subtitles` (
 INSERT INTO `subtitles` (`id`, `languageKey_id`, `language_id`, `subtitle`, `created_at`, `updated_at`) VALUES
 (18, 2, 4, 'ス ワ ー ド 忘 ま', NULL, NULL),
 (19, 2, 5, 'अपना पासवर्ड भूल गए हैं?', NULL, NULL),
-(20, 6, 2, 'Ingrese el nombre del padre', NULL, NULL);
+(20, 6, 2, 'Ingrese el nombre del padre', NULL, NULL),
+(21, 1, 4, 'JAPAN', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -239,7 +239,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `languages`
 --
 ALTER TABLE `languages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `language_keys`
@@ -257,7 +257,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `subtitles`
 --
 ALTER TABLE `subtitles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `users`
