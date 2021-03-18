@@ -6,10 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Subtitle extends Model{
 
-     protected $fillable = ['subtitle'];
+   protected $fillable = ['languageKey_id', 'language_id', 'subtitle'];
 
-	public function LanguageKey(){
-        return $this->belongsTo(LanguageKey::class, 'languageKey_id');
-    }
+	public function languageKey(){
+        return $this->belongsTo('App\LanguageKey','languageKey_id', 'id');
+   }
 
+   public function language(){
+        return $this->belongsTo('App\Language','language_id', 'id');
+   }
 }

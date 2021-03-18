@@ -11,13 +11,14 @@ use App\Subtitle;
 
 
 class HomeController extends Controller{
-   public function lang($locale){
+   public function lang($locale, $languageId){
       App::setLocale($locale);
       session()->put('locale', $locale);
+      session()->put('languageId', $languageId);
       return redirect()->back();
    }
 
-   public function home(){
+   public function home(){     
       return view('home');
    }
 

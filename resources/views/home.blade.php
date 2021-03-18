@@ -5,16 +5,15 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Language') }}</div>
+               <div class="card-body">
+                  <p> {{ trans('language.hi')}}  </p>
+                  <p> {{ __('language.hellow')}} </p>
+                  <p> @lang('language.welcome')  </p>
+                  <p>{{ trans('language.Enter your Password')}}</p>
+                  {{-- Space allow on laravel --}}
 
-                  <div class="card-body">
-                       @if (session('status'))
-                           <div class="alert alert-success" role="alert">
-                               {{ session('status') }}
-                           </div>
-                       @endif
-                      <p>{{ trans('sentence.c')}}</p>
-                   </div>
+                </div>
+            </div>
                   <a class="btn btn-info" href="{{url('/')}}">Back page</a>
             </div>
         </div>

@@ -38,6 +38,7 @@
                   <img src="{{asset($Language->countryImage)}}" width="30px" height="20x"> {{$Language->name}}
                @endforeach --}}
 
+               {{-- Bottom side --}}
                @switch($locale)
 
                   @case('fr')
@@ -56,12 +57,21 @@
                      <img src="{{asset('img/us.png')}}" width="30px" height="20x"> English
 
                @endswitch
+               {{-- Top side --}}
                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                   {{-- <a class="dropdown-item" href="{{url('lang', 'us')}}"><img src="{{asset('img/us.png')}}" width="30px" height="20x"> English</a> --}}
-                  <a class="dropdown-item" href="lang/us"><img src="{{asset('img/us.png')}}" width="30px" height="20x"> English</a>
-                  <a class="dropdown-item" href="lang/fr"><img src="{{asset('img/fr.png')}}" width="30px" height="20x"> French</a>
-                  <a class="dropdown-item" href="lang/es"><img src="{{asset('img/es.png')}}" width="30px" height="20x"> Spanish</a>
-                  <a class="dropdown-item" href="lang/jp"><img src="{{asset('img/jp.png')}}" width="30px" height="20x"> Japanese</a>
+
+                  @php
+                     $Languages = App\Language::all();
+                  @endphp
+
+                  @foreach($Languages as $Language)
+                     {{-- <img src="{{asset($Language->countryImage)}}" width="30px" height="20x"> {{$Language->name}} --}}
+                     <a class="dropdown-item" href="{{url('lang', ['All_Language', $Language->id])}}">
+                        <img src="{{asset($Language->countryImage)}}" width="30px" height="20x">&nbsp; {{$Language->name}}
+                     </a>
+                  @endforeach
+
                </div>
             </li>
          </ul>

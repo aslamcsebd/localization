@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 16, 2021 at 12:32 PM
+-- Generation Time: Mar 18, 2021 at 12:47 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.2.19
 
@@ -55,10 +55,10 @@ CREATE TABLE `languages` (
 --
 
 INSERT INTO `languages` (`id`, `name`, `countryImage`, `created_at`, `updated_at`) VALUES
-(9, 'English', 'assets/flag/English.png', NULL, NULL),
-(10, 'Spanish', 'assets/flag/Spanish.png', NULL, NULL),
-(11, 'French', 'assets/flag/French.png', NULL, NULL),
-(12, 'Japan', 'assets/flag/Japan.png', NULL, NULL);
+(1, 'English', 'assets/flag/English.png', NULL, NULL),
+(2, 'Spanish', 'assets/flag/Spanish.png', NULL, NULL),
+(3, 'French', 'assets/flag/French.png', NULL, NULL),
+(4, 'Japan', 'assets/flag/Japan.png', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -98,7 +98,11 @@ INSERT INTO `language_keys` (`id`, `key`, `created_at`, `updated_at`) VALUES
 (18, 'Enter Your address 2', NULL, NULL),
 (19, 'Enter Full Name 2', NULL, NULL),
 (20, 'Enter Present address 2', NULL, NULL),
-(21, 'How are you?', NULL, NULL);
+(21, 'How are you?', NULL, NULL),
+(22, 'hellow', NULL, NULL),
+(23, 'hi', NULL, NULL),
+(24, 'welcome', NULL, NULL),
+(25, 'Enter your Password', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -156,10 +160,14 @@ CREATE TABLE `subtitles` (
 --
 
 INSERT INTO `subtitles` (`id`, `languageKey_id`, `language_id`, `subtitle`, `created_at`, `updated_at`) VALUES
-(18, 2, 4, 'ス ワ ー ド 忘 ま', NULL, NULL),
-(19, 2, 5, 'अपना पासवर्ड भूल गए हैं?', NULL, NULL),
-(20, 6, 2, 'Ingrese el nombre del padre', NULL, NULL),
-(21, 1, 4, 'JAPAN', NULL, NULL);
+(1, 22, 1, 'English hi', NULL, '2021-03-17 23:55:44'),
+(2, 23, 1, 'English welcome', NULL, NULL),
+(3, 24, 1, 'English password', NULL, NULL),
+(4, 22, 4, 'ん に ち', NULL, NULL),
+(5, 23, 4, 'う こ', NULL, '2021-03-18 00:04:00'),
+(6, 24, 4, 'ワ ワ ド ド を 力 力 し', NULL, '2021-03-18 00:03:32'),
+(7, 25, 1, 'English hellow', NULL, NULL),
+(8, 25, 4, 'ん に ち', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -239,13 +247,13 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `languages`
 --
 ALTER TABLE `languages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `language_keys`
 --
 ALTER TABLE `language_keys`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -257,7 +265,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `subtitles`
 --
 ALTER TABLE `subtitles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`
