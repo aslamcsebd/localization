@@ -1,6 +1,16 @@
 @extends('layouts.app')
 @section('content')
 <div class="container my-4">
+      @if (session('success'))
+         <div class="alert alert-success" role="alert">
+             {{ session('success') }}
+         </div>
+      @endif
+      @if (session('fail'))
+         <div class="alert alert-danger" role="alert">
+             {{ session('fail') }}
+         </div>
+      @endif
    <div class="d-flex align-items-start row mt-4">
       <div class="nav flex-column col-auto nav-pills bg-light border border-danger p-1" id="v-pills-tab" role="tablist" aria-orientation="vertical">
          @php
@@ -48,53 +58,34 @@
                                                    ->join('languages', 'languages.id', '=', 'subtitles.language_id')
                                                    ->where('subtitles.language_id', '=', $Language->id)
                                                    ->select('subtitles.languagekey_id')->get();
-                                             $colo1limit = 0; 
-                                             $a = array();
-                                          @endphp                                             
-                                          @php
-                                             $keys = App\LanguageKey::all();  
-                                             foreach($keys as $key){
-                                                $a[$colo1limit] = $key->id;
-                                                $colo1limit = $colo1limit + 1;
-                                             }
-                                             for($i=0;$i<$colo1limit;$i++){
-                                                   $a[$i];
-                                             }
-                                             foreach($subtitleKeys as $r2){
-                                                for($l=0;$l< $colo1limit;$l++){            
-                                                   if($r2->languagekey_id == $a[$l]){
-                                                        $a[$l] = 0;
-                                                   }
-                                                }
-                                                for($i=0;$i<$colo1limit;$i++){
-                                                     $a[$i];
-                                                }
-                                             }
+
+                                             $subtitleKeys = collect($subtitleKeys)->pluck('languagekey_id');
+                                             $keys = App\LanguageKey::all();
+                                             $allKeys = collect($keys)->pluck('id');
+                                             $unSubtitles = $allKeys->diff($subtitleKeys);  
                                           @endphp
-                                             @for($i=0;$i<$colo1limit;$i++)
-                                                @if ($a[$i]!=0)
-                                                   @php $LanguageKey = App\LanguageKey::find($a[$i]); @endphp
-                                                      <tr>
-                                                         <form action="{{ url('addSubtitle') }}" method="post">
-                                                            @csrf
-                                                               <td>
-                                                                  <input type="hidden" name="languageKey_id" value="{{$LanguageKey->id}}" >
-                                                                  {{ $LanguageKey->id}}
-                                                               </td>
-                                                               <td>
-                                                                  <input type="hidden" name="language_id" value="{{$Language->id}}" >
-                                                                  {{ $LanguageKey->key}}
-                                                               </td>
-                                                               <td >
-                                                                  <input type="" class="subtitle_input" name="subtitle" required>
-                                                               </td>
-                                                               <td>
-                                                                  <button class="btn btn-danger text-light">Add Subtitle</button>
-                                                               </td>
-                                                         </form>
-                                                      </tr>
-                                                @endif
-                                             @endfor
+                                             @foreach($unSubtitles as $id)                                            
+                                                @php 
+                                                   $LanguageKey = App\LanguageKey::find($id);
+                                                @endphp
+                                                <tr>
+                                                   <form action="{{ url('addSubtitle') }}" method="post">
+                                                      @csrf
+                                                         <td>
+                                                            <input type="hidden" name="languageKey_id" value="{{$LanguageKey->id}}"> {{$LanguageKey->id}}
+                                                         </td>
+                                                         <td>
+                                                            <input type="hidden" name="language_id" value="{{$Language->id}}"> {{ $LanguageKey->key}}
+                                                         </td>
+                                                         <td >
+                                                            <input type="" class="subtitle_input" name="subtitle" required>
+                                                         </td>
+                                                         <td>
+                                                            <button class="btn btn-danger text-light">Add Subtitle</button>
+                                                         </td>
+                                                   </form>
+                                                </tr>
+                                             @endforeach
                                        </tbody>
                                     </table>                                   
                               </div>

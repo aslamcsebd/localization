@@ -22,56 +22,41 @@
          </ul>
          
          <ul class="navbar-nav ml-auto">
-            @php
-               $locale = session()->get('locale');
-            @endphp
             <li class="nav-item dropdown">
                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                   Language <span class="caret"></span>
                </a>
-              
-               {{-- @php
-                  $Languages = App\Language::all();
+
+               @php
+                  if(session()->get('languageId')){
+                     $languageId = session()->get('languageId');
+                     $id=$languageId;
+                     $Language = App\Language::find($id);
+                  }else{
+                     $languageId = 1;
+                     $id=$languageId;
+                     $Language = App\Language::find($id);
+                  }
                @endphp
 
-               @foreach($Languages as $Language)
-                  <img src="{{asset($Language->countryImage)}}" width="30px" height="20x"> {{$Language->name}}
-               @endforeach --}}
-
-               {{-- Bottom side --}}
-               @switch($locale)
-
-                  @case('fr')
-                     <img src="{{asset('img/fr.png')}}" width="30px" height="20x"> French
+               @switch($languageId)    
+                  @case($id)
+                     <img src="{{asset($Language->countryImage)}}" width="30px" height="20x"> {{$Language->name}}
                   @break
-
-                  @case('es')
-                     <img src="{{asset('img/jp.png')}}" width="30px" height="20x"> Spain
-                  @break
-
-                  @case('jp')
-                     <img src="{{asset('img/jp.png')}}" width="30px" height="20x"> Japanese
-                  @break
-
                   @default
-                     <img src="{{asset('img/us.png')}}" width="30px" height="20x"> English
-
+                     <img src="{{asset('assets/flag/us.png')}}" width="30px" height="20x"> English
                @endswitch
                {{-- Top side --}}
                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                  {{-- <a class="dropdown-item" href="{{url('lang', 'us')}}"><img src="{{asset('img/us.png')}}" width="30px" height="20x"> English</a> --}}
-
                   @php
                      $Languages = App\Language::all();
                   @endphp
 
                   @foreach($Languages as $Language)
-                     {{-- <img src="{{asset($Language->countryImage)}}" width="30px" height="20x"> {{$Language->name}} --}}
                      <a class="dropdown-item" href="{{url('lang', ['All_Language', $Language->id])}}">
                         <img src="{{asset($Language->countryImage)}}" width="30px" height="20x">&nbsp; {{$Language->name}}
                      </a>
                   @endforeach
-
                </div>
             </li>
          </ul>

@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 18, 2021 at 12:47 PM
+-- Generation Time: Mar 21, 2021 at 03:33 AM
 -- Server version: 5.7.24
 -- PHP Version: 7.2.19
 
@@ -78,31 +78,19 @@ CREATE TABLE `language_keys` (
 --
 
 INSERT INTO `language_keys` (`id`, `key`, `created_at`, `updated_at`) VALUES
-(1, 'Enter your Password', NULL, NULL),
-(2, 'Forget your password?', NULL, NULL),
-(3, 'Re-enter password', NULL, NULL),
-(4, 'Enter your name', NULL, NULL),
-(5, 'Choose your image', NULL, NULL),
-(6, 'Enter Father\'s name', NULL, NULL),
-(7, 'Enter Mother\'s name', NULL, NULL),
-(8, 'Enter Your address', NULL, NULL),
-(9, 'Enter Full Name', NULL, NULL),
-(10, 'Enter Present address', NULL, NULL),
-(11, 'Enter your Password 2', NULL, NULL),
-(12, 'Forget your password 2', NULL, NULL),
-(13, 'Re-enter password 2', NULL, NULL),
-(14, 'Enter your name 2', NULL, NULL),
-(15, 'Choose your image 2', NULL, NULL),
-(16, 'Enter Father\'s name 2', NULL, NULL),
-(17, 'Enter Mother\'s name 2', NULL, NULL),
-(18, 'Enter Your address 2', NULL, NULL),
-(19, 'Enter Full Name 2', NULL, NULL),
-(20, 'Enter Present address 2', NULL, NULL),
-(21, 'How are you?', NULL, NULL),
-(22, 'hellow', NULL, NULL),
-(23, 'hi', NULL, NULL),
-(24, 'welcome', NULL, NULL),
-(25, 'Enter your Password', NULL, NULL);
+(1, 'Enter Full Name', NULL, NULL),
+(2, 'Enter Father\'s name', NULL, NULL),
+(3, 'Enter Mother\'s name', NULL, NULL),
+(4, 'Enter Your address', NULL, NULL),
+(5, 'Enter your Password', NULL, NULL),
+(6, 'Forget your password?', NULL, NULL),
+(7, 'Choose your image', NULL, NULL),
+(8, 'Enter Present address', NULL, NULL),
+(9, 'Re-enter password', NULL, NULL),
+(10, 'How are you?', NULL, NULL),
+(11, 'who are you ?', NULL, NULL),
+(12, 'Hellow, how are you?', NULL, NULL),
+(13, 'welcome back', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -160,14 +148,46 @@ CREATE TABLE `subtitles` (
 --
 
 INSERT INTO `subtitles` (`id`, `languageKey_id`, `language_id`, `subtitle`, `created_at`, `updated_at`) VALUES
-(1, 22, 1, 'English hi', NULL, '2021-03-17 23:55:44'),
-(2, 23, 1, 'English welcome', NULL, NULL),
-(3, 24, 1, 'English password', NULL, NULL),
-(4, 22, 4, 'ん に ち', NULL, NULL),
-(5, 23, 4, 'う こ', NULL, '2021-03-18 00:04:00'),
-(6, 24, 4, 'ワ ワ ド ド を 力 力 し', NULL, '2021-03-18 00:03:32'),
-(7, 25, 1, 'English hellow', NULL, NULL),
-(8, 25, 4, 'ん に ち', NULL, NULL);
+(1, 12, 4, 'こんにちは、元気ですか？', NULL, NULL),
+(2, 2, 1, 'Enter Father\'s name', NULL, NULL),
+(3, 13, 1, 'welcome back', NULL, NULL),
+(4, 1, 4, 'フルネームを入力してください', NULL, NULL),
+(5, 1, 3, 'Entrez le nom complet', NULL, NULL),
+(6, 1, 2, 'Ingrese su nombre completo', NULL, NULL),
+(7, 2, 2, 'Ingrese el nombre del padre', NULL, NULL),
+(8, 2, 3, 'Entrez le nom du père', NULL, NULL),
+(9, 2, 4, '父の名前を入力してください', NULL, NULL),
+(10, 10, 1, 'How are you?', NULL, NULL),
+(11, 11, 1, 'who are you', NULL, NULL),
+(12, 12, 1, 'Hellow, how are you?', NULL, NULL),
+(13, 3, 1, 'Enter Mother\'s name', NULL, NULL),
+(14, 4, 1, 'Enter Your address', NULL, NULL),
+(15, 5, 1, 'Enter your Password', NULL, NULL),
+(16, 6, 1, 'Forget your password?', NULL, NULL),
+(17, 7, 1, 'Choose your image', NULL, NULL),
+(18, 8, 1, 'Enter Present address', NULL, NULL),
+(19, 9, 1, 'Re-enter password', NULL, NULL),
+(20, 3, 3, 'Entrez le nom de la mère', NULL, NULL),
+(21, 3, 4, '母の名前を入力してください', NULL, NULL),
+(22, 3, 2, 'Ingrese el nombre de la madre', NULL, NULL),
+(23, 4, 2, 'Ingrese su dirección', NULL, NULL),
+(24, 4, 3, 'Entrez votre adresse', NULL, NULL),
+(25, 4, 4, 'あなたの住所を入力してください', NULL, NULL),
+(26, 5, 4, 'パスワードを入力してください', NULL, NULL),
+(27, 5, 3, 'Tapez votre mot de passe', NULL, NULL),
+(28, 5, 2, 'Ingresa tu contraseña', NULL, NULL),
+(29, 6, 2, '¿Olvidaste tu contraseña?', NULL, NULL),
+(30, 6, 3, 'Mot de passe oublié?', NULL, NULL),
+(31, 6, 4, 'パスワードを忘れましたか？', NULL, NULL),
+(32, 8, 4, '現在の住所を入力してください', NULL, NULL),
+(33, 8, 2, 'Ingrese la dirección actual', NULL, NULL),
+(34, 8, 3, 'Entrez l\'adresse actuelle', NULL, NULL),
+(35, 11, 3, 'qui es-tu', NULL, NULL),
+(36, 11, 4, 'あなたは誰', NULL, NULL),
+(37, 11, 2, '¿Quién es usted?', NULL, NULL),
+(38, 12, 2, '¿Hola como estas?', NULL, NULL),
+(39, 12, 3, 'Bonjour comment vas-tu?', NULL, NULL),
+(40, 1, 1, 'Enter Full Name', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -253,7 +273,7 @@ ALTER TABLE `languages`
 -- AUTO_INCREMENT for table `language_keys`
 --
 ALTER TABLE `language_keys`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -265,7 +285,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `subtitles`
 --
 ALTER TABLE `subtitles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `users`

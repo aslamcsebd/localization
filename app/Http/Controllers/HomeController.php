@@ -25,6 +25,11 @@ class HomeController extends Controller{
    // addLanguage
    public function addLanguage(Request $request){
 
+      $validator = $request->validate([
+         'name'=>'required|unique:languages,name',
+         'flag'=>'required'
+      ]);
+
       if ($request->hasFile('flag')){
          if($files=$request->file('flag')){
             $countryName = $request->name;
@@ -38,14 +43,26 @@ class HomeController extends Controller{
                'countryImage'=>$imageLink
             ]);
          }
+         return back()->with('success','Language add Successfully');
+      }else{
+         return back()->with('fail','Sorry! Language add Fail. Try new language.');
       }
-      return back()->with('success','Language add Successfully');
    }
 
    // addKey
    public function addKey(Request $request){
-      LanguageKey::insert([
+      $validator = $request->validate([
+         'key'=>'required|unique:language_keys,key'
+      ]);
+
+      $languageKey_id = LanguageKey::insertGetId([
             'key'=>$request->key
+      ]);
+
+      Subtitle::insert([
+         'languageKey_id'=>$languageKey_id,    
+         'language_id'=>1,    
+         'subtitle'=>$request->key
       ]);
       return back()->with('success','Language key add Successfully');
    }
@@ -58,10 +75,10 @@ class HomeController extends Controller{
    public function addSubtitle(Request $request){
       Subtitle::insert([
          'languageKey_id'=>$request->languageKey_id,    
-         'language_id'=>$request->language_id,    
+         'language_id'=>$request->language_id,  
          'subtitle'=>$request->subtitle
       ]);
-      return back()->with('success','Language key add Successfully');
+      return back()->with('success','Subtitle add Successfully');
    }
 
    public function editSubtitle(Request $request){

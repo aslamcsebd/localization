@@ -29,3 +29,18 @@
       })
    </script>
 
+   <script type="text/javascript">
+      window.setTimeout(function() {
+          $(".alert").fadeTo(500, 0).slideUp(500, function(){
+              $(this).remove(); 
+          });
+      }, 5000);
+   </script>
+
+   <script type="text/javascript">
+      $(".alert").each(function(){
+        var txt =  $(this).text().replace(/\s+/g,' ').trim() ;
+        $(this).text(txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+      });
+   </script>
+

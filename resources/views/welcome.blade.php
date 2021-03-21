@@ -5,15 +5,15 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
+                <div class="card-header bg-success mb-2">Example Subtitle</div>
                <div class="card-body">
-                  <p> {{ trans('language.hi')}}  </p>
-                  <p> {{ __('language.hellow')}} </p>
-                  <p> @lang('language.welcome')  </p>
+                  <p> {{ trans('language.Hellow, how are you?')}}  </p>
+                  <p> {{ __('language.Enter Father\'s name')}} </p>
+                  <p> @lang('language.Forget your password?')  </p>
                   <p>{{ trans('language.Enter your Password')}}</p>
                   {{-- Space allow on laravel --}}
-
                 </div>
-            </div>
+            </div> <br>
          <a class="btn btn-info" href="{{url('next')}}">Next page</a>
          </div>
 
