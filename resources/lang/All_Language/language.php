@@ -1,6 +1,5 @@
 <?php
 
-
 $languageId = session()->get('languageId');
 $lange = App\Subtitle::where('language_id', $languageId)->select('languageKey_id', 'subtitle')->get();
 $output = array();

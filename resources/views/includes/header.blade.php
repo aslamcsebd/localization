@@ -1,5 +1,3 @@
-
-
 <nav class="navbar navbar-expand-md navbar-light navbar-laravel" style="background-color: cyan;">
    <div class="container">
       <a class="navbar-brand" href="{{ url('/') }}">
