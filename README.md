@@ -292,199 +292,6 @@
 			   <div class="container">
 			      <a class="navbar-brand" href="{{ url('/') }}">
 			         {{ config('app.name', 'Localization') }}
-=======
-<a href="https://localization.aslambd.com/" target="_blank">
-   <img src="storage/images/click_me.png" width="auto" height="260">
-</a>
-
-### Laravel Localization [Details]
-
-1) Make Three(3) Model [Language, LanguageKey, Subtitle]
-   <p>Migration</p>
-	   1) <p>php artisan make:model Language -m</p>
-		   <p>database/migrations/language</p>
-		      <p>
-			      Schema::create('languages', function (Blueprint $table) {
-			         $table->id();
-			         $table->string('name');
-			         $table->string('countryImage');
-			         $table->timestamps();
-			     	});
-		      </p>
-
-		2) <p>php artisan make:model LanguageKey -m</p>
-		   <p>database/migrations/language_keys</p>
-		      <p>
-		          Schema::create('language_keys', function (Blueprint $table) {
-		            $table->id();
-		            $table->string('key');
-		            $table->timestamps();
-		        });
-		      </p>
-
-		3) <p>php artisan make:model Subtitle -m</p>
-		   <p>database/migrations/subtitles</p>
-		      <p>
-		        	Schema::create('subtitles', function (Blueprint $table) {
-		            $table->id();
-		            $table->integer('languageKey_id');
-		            $table->integer('language_id');
-		            $table->text('subtitle');
-		            $table->timestamps();
-		        	});
-		      </p>
-
-2) Model edit
-	1) app/Language.php
-		<p>
-			<?php
-			namespace App;
-			use Illuminate\Database\Eloquent\Model;
-			class Language extends Model {
-			   protected $fillable = ['name', 'countryImage'];
-
-			   public function subtitle(){
-			        return $this->hasOne(Subtitle::class);
-			   }
-			}
-		</p>
-
-	2) app/Subtitle.php
-		<p>
-			<?php
-			namespace App;
-			use Illuminate\Database\Eloquent\Model;
-
-			class Subtitle extends Model{
-
-			   protected $fillable = ['languageKey_id', 'language_id', 'subtitle'];
-
-				public function languageKey(){
-			        return $this->belongsTo('App\LanguageKey','languageKey_id', 'id');
-			   }
-
-			   public function language(){
-			        return $this->belongsTo('App\Language','language_id', 'id');
-			   }
-			}
-		</p>
-
-3) Middleware command
-	<p>php artisan make:middleware Localization</p>
-	<details>
-      <summary>Localization.php</summary>
-      <p>app/Http/Middleware/Localization.php</p>
-      <pre>
-      	<?php
-				// Localization.php
-				namespace App\Http\Middleware;
-				use Closure;
-				use App;
-				class Localization {
-				   public function handle($request, Closure $next) {
-				      if (session()->has('locale')) {
-				         App::setLocale(session()->get('locale'));
-				      }
-				      return $next($request);
-				   }
-				}
-      </pre>
-   </details>
-
-4) Localization Middleware
-	<p>App\Http\Kernel's $middlewareGroup's array</p>
-	<details>
-      <summary>Kernel.php</summary>
-      <p>app/Http/Middleware/Localization.php</p>
-      <pre>
-      	protected $middlewareGroups = [
-	        'web' => [
-	            \App\Http\Middleware\EncryptCookies::class,
-	            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-	            \Illuminate\Session\Middleware\StartSession::class,
-	            // \Illuminate\Session\Middleware\AuthenticateSession::class,
-	            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-	            \App\Http\Middleware\VerifyCsrfToken::class,
-	            \Illuminate\Routing\Middleware\SubstituteBindings::class,
-	            \App\Http\Middleware\Localization::class,
-	        	],
-
-	        	'api' => [
-	            'throttle:60,1',
-	            'bindings',
-	        	],
-	    	];
-      </pre>
-   </details>
-
-5) HomeController.php
-	<p>app/http/controllers/HomeController.php</p>
-
-6) lang
-	<p>Make folder: All_Language</p>
-	<p>resources/lang/All_Language/language.php</p>
-	<p>
-		<?php
-		$languageId = session()->get('languageId');
-		$lange = App\Subtitle::where('language_id', $languageId)->select('languageKey_id', 'subtitle')->get();
-		$output = array();
-
-		foreach ($lange as $lang) {
-			$output[$lang->languageKey->key]= $lang->subtitle;
-		}
-		return $output;
-	</p>
-
-7) Blade page
-	1) app.blade.php
-      <p>resources/views/layouts/app.blade.php</p>
-
-      <!doctype html>
-		<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-			<head>
-				@include('includes.head')
-			</head>
-			<body>
-				@include('includes.header')
-				@yield('content')
-				@include('includes.modal')
-				@include('includes.footer')
-				
-			</body>
-		</html>
-
-	2) head.blade.php
-      <p>resources/views/includes/head.blade.php</p>
-      	<p>
-	      	<meta charset="utf-8">
-			   <meta name="viewport" content="width=device-width, initial-scale=1">
-			   {{-- <meta http-equiv="refresh" content="2" /> --}}
-
-
-			   <!-- CSRF Token -->
-			   <meta name="csrf-token" content="{{ csrf_token() }}">
-			   <title>{{ config('app.name', 'Laravel') }}</title>
-
-			   <!-- Fonts -->
-			   <link rel="dns-prefetch" href="//fonts.gstatic.com">
-			   <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-			  
-			   <!-- Styles -->
-
-			   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
-			   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
-			   <link href="{{ asset('assets/style.css') }}" rel="stylesheet">
-   		</p>
-
-	3) header.blade.php
-      <p>resources/views/includes/header.blade.php</p>
-      <p>
-      	<nav class="navbar navbar-expand-md navbar-light navbar-laravel" style="background-color: cyan;">
-			   <div class="container">
-			      <a class="navbar-brand" href="{{ url('/') }}">
-			         {{ config('app.name', 'Laravel') }}
->>>>>>> 874793cf273c74ecbb050c8e5f1ddd1fa8e9d32f
 			      </a>
 			      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
 			         <span class="navbar-toggler-icon"></span>
@@ -505,7 +312,7 @@
 			         <ul class="navbar-nav ml-auto">
 			            <li class="nav-item dropdown">
 			               <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-<<<<<<< HEAD
+
 			                  {{-- Language <span class="caret"></span> --}}
 			                  <i class="fas fa-globe"></i> 
 			                  @php
@@ -529,30 +336,6 @@
 			                  @endswitch
 			               </a>
 
-=======
-			                  Language <span class="caret"></span>
-			               </a>
-
-			               @php
-			                  if(session()->get('languageId')){
-			                     $languageId = session()->get('languageId');
-			                     $id=$languageId;
-			                     $Language = App\Language::find($id);
-			                  }else{
-			                     $languageId = 1;
-			                     $id=$languageId;
-			                     $Language = App\Language::find($id);
-			                  }
-			               @endphp
-
-			               @switch($languageId)    
-			                  @case($id)
-			                     <img src="{{asset($Language->countryImage)}}" width="30px" height="20x"> {{$Language->name}}
-			                  @break
-			                  @default
-			                     <img src="{{asset('assets/flag/us.png')}}" width="30px" height="20x"> English
-			               @endswitch
->>>>>>> 874793cf273c74ecbb050c8e5f1ddd1fa8e9d32f
 			               {{-- Top side --}}
 			               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 			                  @php
@@ -570,18 +353,10 @@
 			      </div>
 			   </div>
 			</nav>
-<<<<<<< HEAD
    
 		iv) modal.blade.php
       	resources/views/includes/modal.blade.php
 
-=======
-      </p>
-
-	4) modal.blade.php
-      <p>resources/views/includes/modal.blade.php</p>
-      <p>
->>>>>>> 874793cf273c74ecbb050c8e5f1ddd1fa8e9d32f
 	      {{-- Add Language --}}
 			   <div class="modal fade" id="addLanguage" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			      <div class="modal-dialog" role="document">
@@ -644,7 +419,6 @@
 			   </div>
 
 			{{-- Edit Subtitle --}}
-<<<<<<< HEAD
 			   <div class="modal fade" id="editSubtitle" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			      <div class="modal-dialog" role="document">
 			         <div class="modal-content">
@@ -653,7 +427,6 @@
 			               <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
 			            </div>
 			            <div class="modal-body">
-			               
 			               <form action="{{ url('editSubtitle') }}" method="post" enctype="multipart/form-data" class="needs-validation" >
 			                  @csrf
 			                  <div class="form">
@@ -674,8 +447,7 @@
 			                     <button class="btn btn-primary" type="submit">Change Code</button>
 			                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
 			                  </div>
-			               </form>
-			               
+			               </form>			               
 			            </div>
 			         </div>
 			      </div>
@@ -730,102 +502,7 @@
 			@section('content')
 			<div class="container">
 			   <div class="row justify-content-center">
-=======
-		   <div class="modal fade" id="editSubtitle" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		      <div class="modal-dialog" role="document">
-		         <div class="modal-content">
-		            <div class="modal-header">
-		               <h5 class="modal-title f-w-600" id="exampleModalLabel">Edit code</h5>
-		               <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-		            </div>
-		            <div class="modal-body">
-		               
-		               <form action="{{ url('editSubtitle') }}" method="post" enctype="multipart/form-data" class="needs-validation" >
-		                  @csrf
-		                  <div class="form">
-		                     <div class="form-group">
-		                        <label for="language_key" class="mb-2">Key Id :</label>
-		                        <input name="id" class="form-control" id="id" readonly>
-		                     </div>                     
-		                     <div class="form-group">
-		                        <label for="language_key" class="mb-2">Language key :</label>
-		                        <input name="language_key" class="form-control" id="language_key" type="text" readonly>
-		                     </div>
-		                     <div class="form-group">
-		                        <label for="subtitle" class="mb-2">Subtitle Code :</label>
-		                        <textarea name="subtitle" class="form-control" id="subtitle" type="text" rows="5"></textarea>
-		                     </div>
-		                  </div>
-		                  <div class="modal-footer">
-		                     <button class="btn btn-primary" type="submit">Change Code</button>
-		                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-		                  </div>
-		               </form>
-		               
-		            </div>
-		         </div>
-		      </div>
-		   </div>
-		</p>
 
-	5) footer.blade.php
-      <p>resources/views/includes/footer.blade.php</p>
-      <p>
-      	<script type="text/javascript" src="{{ asset('assets/js/jquery.min.js')}}"></script>
-			<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script> 
-			<script type="text/javascript" src="{{ asset('assets/js/bootstrap.min.js')}}"></script>
-			<script type="text/javascript" src="{{ asset('assets/js/jquery.dataTables.min.js')}}"></script>
-			   
-			<script type="text/javascript">
-			   $(document).ready( function () {
-			      $('.table').DataTable();
-			   } );
-			</script>
-
-			{{-- Edit subtitle --}}
-			   <script type="text/javascript">
-			      $('#editSubtitle').on('show.bs.modal', function (event) {
-			         console.log('Model Opened')
-			         var button = $(event.relatedTarget)
-
-			         var id = button.data('id') 
-			         // var codeTitle = button.data('codeTitle') [Camel case not allow. So don't use it]
-			         var language_key = button.data('language_key') 
-			         var subtitle = button.data('subtitle') 
-			         
-			         var modal = $(this)
-			         
-			         modal.find('.modal-body #id').val(id);
-			         modal.find('.modal-body #language_key').val(language_key);
-			         modal.find('.modal-body #subtitle').val(subtitle);
-			      })
-			   </script>
-
-			   <script type="text/javascript">
-			      window.setTimeout(function() {
-			          $(".alert").fadeTo(500, 0).slideUp(500, function(){
-			              $(this).remove(); 
-			          });
-			      }, 5000);
-			   </script>
-
-			   <script type="text/javascript">
-			      $(".alert").each(function(){
-			        var txt =  $(this).text().replace(/\s+/g,' ').trim() ;
-			        $(this).text(txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
-			      });
-			   </script>
-      </p>
-
-   6) home.blade.php
-      <p>resources/views/home.blade.php</p>
-      <p>
-      	@extends('layouts.app')
-			@section('content')
-			<div class="container">
-			    <div class="row justify-content-center">
-			      
->>>>>>> 874793cf273c74ecbb050c8e5f1ddd1fa8e9d32f
 			      @if (session('success'))
 			         <div class="alert alert-success" role="alert">
 			             {{ session('success') }}
@@ -836,7 +513,6 @@
 			             {{ session('fail') }}
 			         </div>
 			      @endif
-<<<<<<< HEAD
 			      <div class="col-md-8">
 			         <div class="card">
 			            <div class="card-header bg-success mb-2">Example Subtitle</div>
@@ -872,84 +548,29 @@
 		      @endif
 			   <div class="d-flex align-items-start row mt-4">
 			      <div class="nav flex-column col-auto nav-pills bg-light border p-1" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-=======
-			        <div class="col-md-8">
-			            <div class="card">
-			                     <div class="card-header bg-success mb-2">Example Subtitle</div>
 
-			               <div class="card-body">
-			                  <p> {{ trans('language.Hellow, how are you?')}}  </p>
-			                  <p> {{ trans('language.Enter Full Name')}}  </p>
-			                  <p> {{ __('language.Enter Father\'s name')}} </p>
-			                  <p> @lang('language.Hellow, how are you?')  </p>
-			                  <p>{{ trans('language.Enter your Password')}}</p>
-			                  {{-- Space allow on laravel --}}
-
-			                </div>
-			            </div> <br>
-			            <a class="btn btn-info" href="{{url('/')}}">Back page</a>
-			            </div>
-			        </div>
-			    </div>
-			</div>
-			@endsection
-      </p>
-
-   7) subtitle.blade.php
-      <p>resources/views/subtitle.blade.php</p>
-      <p>
-      	@extends('layouts.app')
-			@section('content')
-			<div class="container my-4">
-			      @if (session('success'))
-			         <div class="alert alert-success" role="alert">
-			             {{ session('success') }}
-			         </div>
-			      @endif
-			      @if (session('fail'))
-			         <div class="alert alert-danger" role="alert">
-			             {{ session('fail') }}
-			         </div>
-			      @endif
-			   <div class="d-flex align-items-start row mt-4">
-			      <div class="nav flex-column col-auto nav-pills bg-light border border-danger p-1" id="v-pills-tab" role="tablist" aria-orientation="vertical">
->>>>>>> 874793cf273c74ecbb050c8e5f1ddd1fa8e9d32f
 			         @php
 			            $Languages = App\Language::all();
 			            $total_languageKey = App\LanguageKey::all()->count();            
 			         @endphp
 			         @foreach($Languages as $Language)
 
-<<<<<<< HEAD
 			            <button class="nav-link btn btn-sm btn-outline-primary p-1 m-1 @if($loop->index==0) active @endif" data-bs-toggle="pill" data-bs-target="#v-pills-{{$Language->id}}">
-=======
-			            <button class="av-link btn btn-outline-primary p-1 m-1 @if($loop->index==0) active @endif" data-bs-toggle="pill" data-bs-target="#v-pills-{{$Language->id}}">
->>>>>>> 874793cf273c74ecbb050c8e5f1ddd1fa8e9d32f
 			               {{$Language->name}}
 			            </button>
 			         @endforeach
 			      </div>
-<<<<<<< HEAD
 
 			      <div class="tab-content col" id="v-pills-tabContent">
-=======
-			      <div class="tab-content col" id="v-pills-tabContent">             
->>>>>>> 874793cf273c74ecbb050c8e5f1ddd1fa8e9d32f
 			         @foreach($Languages as $Language)
 			            @php  $total_complete_subtitle = App\Subtitle::where('language_id', $Language->id)->get()->count(); 
 			                  $total_incomplete_subtitle = $total_languageKey - $total_complete_subtitle;
 			            @endphp
-<<<<<<< HEAD
+
 			            <div class="tab-pane fade show @if($loop->index==0) active @endif" id="v-pills-{{$Language->id}}">
 			               <div class="nav nav-tabs" id="nav-tab" role="tablist">
 			                  <button class="nav-link btn-sm bg-danger text-light @if($loop->index==0) active @endif" data-bs-toggle="tab" data-bs-target="#nav-{{$Language->id}}_code">Incomplete Subtitle[{{$total_incomplete_subtitle}}/{{$total_languageKey}}]</button>
 			                  <button class="nav-link btn-sm bg-success text-light" data-bs-toggle="tab" data-bs-target="#nav-{{$Language->id}}_output">Complete Subtitle[{{$total_complete_subtitle}}/{{$total_languageKey}}]</button>
-=======
-			            <div class="tab-pane fade show border border-primary @if($loop->index==0) active @endif" id="v-pills-{{$Language->id}}">
-			               <div class="nav nav-tabs" id="nav-tab" role="tablist">
-			                  <button class="nav-link bg-danger text-light @if($loop->index==0) active @endif" data-bs-toggle="tab" data-bs-target="#nav-{{$Language->id}}_code">Incomplete Subtitle[{{$total_incomplete_subtitle}}/{{$total_languageKey}}]</button>
-			                  <button class="nav-link bg-success text-light" data-bs-toggle="tab" data-bs-target="#nav-{{$Language->id}}_output">Complete Subtitle[{{$total_complete_subtitle}}/{{$total_languageKey}}]</button>
->>>>>>> 874793cf273c74ecbb050c8e5f1ddd1fa8e9d32f
 			               </div>
 
 			               <div class="tab-content" id="nav-tabContent">
@@ -959,11 +580,8 @@
 			                           <div class="card">
 			                              <div class="card-body">                       
 			                                 <div class="card-header bg-danger mb-2">{{$Language->name}}</div>
-<<<<<<< HEAD
 			                                    <table class="table table-striped table-bordered">
-=======
-			                                    <table class="table table-bordered">
->>>>>>> 874793cf273c74ecbb050c8e5f1ddd1fa8e9d32f
+
 			                                       <thead class="text-center">
 			                                          <tr>
 			                                             <th>KeyId</th>
@@ -1002,11 +620,9 @@
 			                                                            <input type="" class="subtitle_input" name="subtitle" required>
 			                                                         </td>
 			                                                         <td>
-<<<<<<< HEAD
+
 			                                                            <button class="btn btn-sm btn-danger text-light">Add Subtitle</button>
-=======
-			                                                            <button class="btn btn-danger text-light">Add Subtitle</button>
->>>>>>> 874793cf273c74ecbb050c8e5f1ddd1fa8e9d32f
+
 			                                                         </td>
 			                                                   </form>
 			                                                </tr>
@@ -1024,11 +640,7 @@
 			                           <div class="card">
 			                              <div class="card-body">                       
 			                                 <div class="card-header bg-success mb-2">{{$Language->name}}</div>
-<<<<<<< HEAD
 			                                    <table class="table table-striped table-bordered">
-=======
-			                                    <table class="table table-bordered">
->>>>>>> 874793cf273c74ecbb050c8e5f1ddd1fa8e9d32f
 			                                       <thead class="text-center">
 			                                          <tr>
 			                                             <th>KeyId</th>
@@ -1054,12 +666,8 @@
 			                                                   <td>{{ $LanguageKey->id}}</td>
 			                                                   <td>{{ $LanguageKey->key}}</td>
 			                                                   <td>{{ $subtitleKey->subtitle}}</td>
-			                                                   <td>
-<<<<<<< HEAD
+			                                                   <td
 			                                                      <a class="btn btn-sm btn-success text-light" data-toggle="modal" data-target="#editSubtitle" data-id="{{$subtitleKey->id}}" data-language_key="{{$LanguageKey->key}}" data-subtitle="{{$subtitleKey->subtitle}}">Edit</a>
-=======
-			                                                      <a class="btn btn-success text-light" data-toggle="modal" data-target="#editSubtitle" data-id="{{$subtitleKey->id}}" data-language_key="{{$LanguageKey->key}}" data-subtitle="{{$subtitleKey->subtitle}}">Edit</a>
->>>>>>> 874793cf273c74ecbb050c8e5f1ddd1fa8e9d32f
 			                                                   </td>
 			                                                </tr>
 			                                             @endforeach                               
@@ -1078,39 +686,21 @@
 			   </div>
 			</div>
 			@endsection
-<<<<<<< HEAD
-			    
 
 		viii) welcome.blade.php
 	      resources/views/welcome.blade.php
 
 	   	@extends('layouts.app')
-=======
-      </p>
-
-	8) welcome.blade.php
-      <p>resources/views/welcome.blade.php</p>
-      <p>
-      	@extends('layouts.app')
->>>>>>> 874793cf273c74ecbb050c8e5f1ddd1fa8e9d32f
 			@section('content')
 			<div class="container">
 			   <div class="row justify-content-center">
 			      <div class="col-md-8">
 			         <div class="card">
 			            <div class="card-header bg-success mb-2">Example Subtitle</div>
-<<<<<<< HEAD
 			            <div class="card-body p-2">
 			               <p> {{ trans('language.Hellow, how are you?')}}  </p>
 			               <p> {{ __('language.Enter Father\'s name')}} </p>
-			               <p> @lang('language.Forget your password?')  </p>
-=======
-			            <div class="card-body">
-			               <p> {{ trans('language.Hellow, how are you?')}}  </p>
-			               <p> {{ __('language.Enter Father\'s name')}} </p>
-			               <p> @lang('language.Forget your password?')  </p>
-			               <p>{{ trans('language.Enter your Password')}}</p>
->>>>>>> 874793cf273c74ecbb050c8e5f1ddd1fa8e9d32f
+			               <p> @lang('language.Forget your password?')  </p
 			               {{-- Space allow on laravel --}}
 			            </div>
 			         </div> <br>
@@ -1151,20 +741,12 @@
 			   </div>
 			</div>
 			@endsection
-<<<<<<< HEAD
 </details>
 
 <details>
    <summary>8) Routes</summary>
 		routes/web.php
 
-=======
-      </p>
-
-8) Routes
-	<p>routes/web.php</p>
-	<p>
->>>>>>> 874793cf273c74ecbb050c8e5f1ddd1fa8e9d32f
 		<?php
 			use Illuminate\Support\Facades\Route;
 
@@ -1182,13 +764,7 @@
 			Route::get('subtitle', 'HomeController@subtitle')->name('subtitle');
 			Route::post('addSubtitle', 'HomeController@addSubtitle')->name('addSubtitle');
 			Route::post('editSubtitle', 'HomeController@editSubtitle')->name('editSubtitle');
-<<<<<<< HEAD
 </details>
-=======
-
-			Route::get('next', 'HomeController@home')->name('home');
-	</p>
->>>>>>> 874793cf273c74ecbb050c8e5f1ddd1fa8e9d32f
 
 9) public folder structure
 	
@@ -1204,8 +780,6 @@
 
 			N:B: Image will be upload by system when language will be added.
 					Image size should be 80*50 for better position.[Not mandatory]
-<<<<<<< HEAD
-=======
 
 Link:
 
@@ -1217,4 +791,3 @@ Link:
 		-> For create  database table
 		-> Call Table from database and convert array[]
 	https://www.youtube.com/watch?v=cmmJ-upACd8&ab_channel=ProgrammerSayed
->>>>>>> 874793cf273c74ecbb050c8e5f1ddd1fa8e9d32f
