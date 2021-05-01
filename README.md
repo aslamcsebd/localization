@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ### Laravel Localization
 <a href="https://localization.aslambd.com/" target="_blank">
 	<img src="storage/images/click_me.png" width="auto" height="260">
@@ -766,28 +765,30 @@
 			Route::post('editSubtitle', 'HomeController@editSubtitle')->name('editSubtitle');
 </details>
 
-9) public folder structure
-	
-	public
-		assets
-			css/
-			js/
-			flag/ 
-				->English.png
-				->French.png
-				->Japan.png
-				->Spanish.
+<details>
+   <summary>9) public folder structure</summary>
+   		
+		public
+			assets
+				css/
+				js/
+				flag/ 
+					->English.png
+					->French.png
+					->Japan.png
+					->Spanish.
 
-			N:B: Image will be upload by system when language will be added.
-					Image size should be 80*50 for better position.[Not mandatory]
+				N:B: Image will be upload by system when language will be added.
+						Image size should be 80*50 for better position.[Not mandatory]
 
-Link:
+		Link:
 
-	Laravel Dynamic Localization
+		Laravel Dynamic Localization
 
-	1) https://appdividend.com/2019/04/01/how-to-create-multilingual-website-using-laravel-localization/
+		1) https://appdividend.com/2019/04/01/how-to-create-multilingual-website-using-laravel-localization/
 
-	2) See only this time (3:30 - 3:40)
-		-> For create  database table
-		-> Call Table from database and convert array[]
-	https://www.youtube.com/watch?v=cmmJ-upACd8&ab_channel=ProgrammerSayed
+		2) See only this time (3:30 - 3:40)
+			-> For create  database table
+			-> Call Table from database and convert array[]
+		https://www.youtube.com/watch?v=cmmJ-upACd8&ab_channel=ProgrammerSayed
+</details>
