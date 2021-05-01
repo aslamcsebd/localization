@@ -9,7 +9,6 @@ use App\Language;
 use App\LanguageKey;
 use App\Subtitle;
 
-
 class HomeController extends Controller{
    public function lang($locale, $languageId){
       App::setLocale($locale);
@@ -18,7 +17,7 @@ class HomeController extends Controller{
       return redirect()->back();
    }
 
-   public function home(){     
+   public function home(){
       return view('home');
    }
 

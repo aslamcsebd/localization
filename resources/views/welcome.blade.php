@@ -5,11 +5,10 @@
       <div class="col-md-8">
          <div class="card">
             <div class="card-header bg-success mb-2">Example Subtitle</div>
-            <div class="card-body">
+            <div class="card-body pl-2">
                <p> {{ trans('language.Hellow, how are you?')}}  </p>
                <p> {{ __('language.Enter Father\'s name')}} </p>
                <p> @lang('language.Forget your password?')  </p>
-               <p>{{ trans('language.Enter your Password')}}</p>
                {{-- Space allow on laravel --}}
             </div>
          </div> <br>

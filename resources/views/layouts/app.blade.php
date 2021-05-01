@@ -7,7 +7,6 @@
 		@include('includes.header')
 		@yield('content')
 		@include('includes.modal')
-		@include('includes.footer')
-		
+		@include('includes.footer')		
 	</body>
 </html>

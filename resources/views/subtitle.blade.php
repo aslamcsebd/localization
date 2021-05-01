@@ -12,27 +12,28 @@
          </div>
       @endif
    <div class="d-flex align-items-start row mt-4">
-      <div class="nav flex-column col-auto nav-pills bg-light border border-danger p-1" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <div class="nav flex-column col-auto nav-pills bg-light border p-1" id="v-pills-tab" role="tablist" aria-orientation="vertical">
          @php
             $Languages = App\Language::all();
             $total_languageKey = App\LanguageKey::all()->count();            
          @endphp
          @foreach($Languages as $Language)
 
-            <button class="av-link btn btn-outline-primary p-1 m-1 @if($loop->index==0) active @endif" data-bs-toggle="pill" data-bs-target="#v-pills-{{$Language->id}}">
+            <button class="nav-link btn btn-sm btn-outline-primary p-1 m-1 @if($loop->index==0) active @endif" data-bs-toggle="pill" data-bs-target="#v-pills-{{$Language->id}}">
                {{$Language->name}}
             </button>
          @endforeach
       </div>
-      <div class="tab-content col" id="v-pills-tabContent">             
+
+      <div class="tab-content col" id="v-pills-tabContent">
          @foreach($Languages as $Language)
             @php  $total_complete_subtitle = App\Subtitle::where('language_id', $Language->id)->get()->count(); 
                   $total_incomplete_subtitle = $total_languageKey - $total_complete_subtitle;
             @endphp
-            <div class="tab-pane fade show border border-primary @if($loop->index==0) active @endif" id="v-pills-{{$Language->id}}">
+            <div class="tab-pane fade show @if($loop->index==0) active @endif" id="v-pills-{{$Language->id}}">
                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                  <button class="nav-link bg-danger text-light @if($loop->index==0) active @endif" data-bs-toggle="tab" data-bs-target="#nav-{{$Language->id}}_code">Incomplete Subtitle[{{$total_incomplete_subtitle}}/{{$total_languageKey}}]</button>
-                  <button class="nav-link bg-success text-light" data-bs-toggle="tab" data-bs-target="#nav-{{$Language->id}}_output">Complete Subtitle[{{$total_complete_subtitle}}/{{$total_languageKey}}]</button>
+                  <button class="nav-link btn-sm bg-danger text-light @if($loop->index==0) active @endif" data-bs-toggle="tab" data-bs-target="#nav-{{$Language->id}}_code">Incomplete Subtitle[{{$total_incomplete_subtitle}}/{{$total_languageKey}}]</button>
+                  <button class="nav-link btn-sm bg-success text-light" data-bs-toggle="tab" data-bs-target="#nav-{{$Language->id}}_output">Complete Subtitle[{{$total_complete_subtitle}}/{{$total_languageKey}}]</button>
                </div>
 
                <div class="tab-content" id="nav-tabContent">
@@ -42,7 +43,7 @@
                            <div class="card">
                               <div class="card-body">                       
                                  <div class="card-header bg-danger mb-2">{{$Language->name}}</div>
-                                    <table class="table table-bordered">
+                                    <table class="table table-striped table-bordered">
                                        <thead class="text-center">
                                           <tr>
                                              <th>KeyId</th>
@@ -81,7 +82,7 @@
                                                             <input type="" class="subtitle_input" name="subtitle" required>
                                                          </td>
                                                          <td>
-                                                            <button class="btn btn-danger text-light">Add Subtitle</button>
+                                                            <button class="btn btn-sm btn-danger text-light">Add Subtitle</button>
                                                          </td>
                                                    </form>
                                                 </tr>
@@ -99,7 +100,7 @@
                            <div class="card">
                               <div class="card-body">                       
                                  <div class="card-header bg-success mb-2">{{$Language->name}}</div>
-                                    <table class="table table-bordered">
+                                    <table class="table table-striped table-bordered">
                                        <thead class="text-center">
                                           <tr>
                                              <th>KeyId</th>
@@ -126,7 +127,7 @@
                                                    <td>{{ $LanguageKey->key}}</td>
                                                    <td>{{ $subtitleKey->subtitle}}</td>
                                                    <td>
-                                                      <a class="btn btn-success text-light" data-toggle="modal" data-target="#editSubtitle" data-id="{{$subtitleKey->id}}" data-language_key="{{$LanguageKey->key}}" data-subtitle="{{$subtitleKey->subtitle}}">Edit</a>
+                                                      <a class="btn btn-sm btn-success text-light" data-toggle="modal" data-target="#editSubtitle" data-id="{{$subtitleKey->id}}" data-language_key="{{$LanguageKey->key}}" data-subtitle="{{$subtitleKey->subtitle}}">Edit</a>
                                                    </td>
                                                 </tr>
                                              @endforeach                               

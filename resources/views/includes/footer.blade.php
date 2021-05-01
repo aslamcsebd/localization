@@ -1,16 +1,15 @@
-<script type="text/javascript" src="{{ asset('assets/js/jquery.min.js')}}"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script> 
-<script type="text/javascript" src="{{ asset('assets/js/bootstrap.min.js')}}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/jquery.dataTables.min.js')}}"></script>
-
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script> 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="//cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
    
-<script type="text/javascript">
-   $(document).ready( function () {
-      $('.table').DataTable();
-   } );
-</script>
+   <script type="text/javascript">
+      $(document).ready( function () {
+         $('.table').DataTable();
+      } );
+   </script>
 
- {{-- Edit subtitle --}}
+   {{-- Edit subtitle --}}
    <script type="text/javascript">
       $('#editSubtitle').on('show.bs.modal', function (event) {
          console.log('Model Opened')
@@ -36,11 +35,3 @@
           });
       }, 5000);
    </script>
-
-   <script type="text/javascript">
-      $(".alert").each(function(){
-        var txt =  $(this).text().replace(/\s+/g,' ').trim() ;
-        $(this).text(txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
-      });
-   </script>
-

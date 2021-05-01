@@ -58,3 +58,7 @@ table.dataTable thead td {
 label{ font-weight: 700; }
 .subtitle_input{ width: 100%; }
 
+.card-body {
+    padding: 0rem 0rem ;
+}
+
